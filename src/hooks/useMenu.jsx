@@ -12,7 +12,7 @@ const useMenu = () => {
 				setLoading(false);
 			})
 	}, [])
-	return [menu,loading]
+	return [menu, loading];
 };
 
 export default useMenu;

@@ -1,13 +1,16 @@
 import { useContext } from "react";
 import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../peoviders/AuthProvider";
+import Swal from "sweetalert2";
 
 
 const SignUp = () => {
-	const { register, formState: { errors }, handleSubmit } = useForm();
-	const { createUser } = useContext(AuthContext);
+	const { register,reset, formState: { errors }, handleSubmit } = useForm();
+	const { createUser, updateUserProfile } = useContext(AuthContext);
+	const navigate = useNavigate();
+
 
 	const onSubmit = (data) => {
 		console.log(data);
@@ -15,6 +18,24 @@ const SignUp = () => {
 			.then(result => {
 				const loggedUser = result.user;
 				console.log(loggedUser);
+				updateUserProfile(data.name, data.photoURL)
+					.then(() => {
+						console.log("user profile info updated");
+						reset();
+
+						Swal.fire({
+							title: 'Create an account Successful',
+							showClass: {
+								popup: 'animate__animated animate__fadeInDown'
+							},
+							hideClass: {
+								popup: 'animate__animated animate__fadeOutUp'
+							}
+						})
+						navigate('/');
+					})
+				.catch(error=>console.log(error))
+				
 		})
 	};
 	return (
@@ -39,6 +60,16 @@ const SignUp = () => {
 								<input type="text" name="name" {...register("name", { required: true })} placeholder="name" className="input input-bordered" />
 							</div>
 							{errors.name?.type === 'required' && <p className="text-red-500" role="alert">Name is required</p>}
+
+
+							<div className="form-control">
+								<label className="label">
+									<span className="label-text">Photo URL</span>
+								</label>
+								<input type="text" name="photoURl" {...register("photoURL", { required: true })} placeholder="photo URL" className="input input-bordered" />
+							</div>
+							{errors.photoURL?.type === 'required' && <p className="text-red-500" role="alert">Photo URL is required</p>}
+							
 
 
 							<div className="form-control">
