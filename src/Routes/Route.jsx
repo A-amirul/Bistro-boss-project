@@ -7,35 +7,49 @@ import Login from "../pages/Login/Login";
 import SignUp from "../pages/signUp/signUp";
 import Secret from "../pages/Shared/Secret/Secret";
 import PrivateRoute from "./PrivateRoute";
+import Dashboard from "../Layouts/Dashboard";
+import MyCart from "../pages/Dashboard/MyCart/MyCart";
 
- export const router = createBrowserRouter([
+export const router = createBrowserRouter([
 	{
 		path: "/",
 		element: <Main></Main>,
 		children: [
 			{
 				path: "/",
-				element:<Home></Home>
+				element: <Home></Home>
 			},
 			{
 				path: "/menu",
-				element:<Menu></Menu>
+				element: <Menu></Menu>
 			},
 			{
 				path: "order/:category",
-				element:<Order></Order>
+				element: <Order></Order>
 			},
 			{
 				path: "/login",
-				element:<Login></Login>
+				element: <Login></Login>
 			},
 			{
 				path: "/signUp",
-				element:<SignUp></SignUp>
+				element: <SignUp></SignUp>
 			},
 			{
 				path: "/secret",
 				element: <PrivateRoute><Secret></Secret></PrivateRoute>
+			}
+
+		]
+
+	},
+	{
+		path: "dashboard",
+		element: <Dashboard></Dashboard>,
+		children: [
+			{
+				path: "mycart",
+				element:<MyCart></MyCart>
 			}
 		]
 	}
